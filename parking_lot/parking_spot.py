@@ -1,14 +1,13 @@
 from abc import ABC
+import itertools
 
 from parking_lot.constants import ParkingSpotType
 
 
 class ParkingSpot(ABC):
-    def __init__(
-        self, spot_id: int, 
-        parking_spot_type: ParkingSpotType
-    ):
-        self._id = spot_id
+    spot_counter = itertools.count(start=1)
+    def __init__(self, parking_spot_type):
+        self._id = next(ParkingSpot.spot_counter)
         self._free = True
         self._parking_spot_type = parking_spot_type
 
@@ -25,6 +24,5 @@ class ParkingSpot(ABC):
 
 
 class FourWheelerSpot(ParkingSpot):
-    def __init__(self, spot_id: int):
-        super().__init__(
-            spot_id, ParkingSpotType.FOUR_WHEELER)
+    def __init__(self):
+        super().__init__(ParkingSpotType.FOUR_WHEELER)
