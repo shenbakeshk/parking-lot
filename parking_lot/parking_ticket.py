@@ -6,6 +6,14 @@ from parking_lot.constants import ParkingSpotType
 
 
 class ParkingTicket(ABC):
+    """
+    Parking ticket module to issue parking-tickets to 
+    vehicles parked in parking-lot.
+    Parking ticket instance is designed to be 
+    garbage collected on instance of exit of 
+    a vehicle. So no clean up functions are 
+    supported.
+    """
     ticket_counter = itertools.count(start=1)
     def __init__(
         self, parking_spot_type: ParkingSpotType
