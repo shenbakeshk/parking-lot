@@ -30,3 +30,63 @@ class TestVehicle(unittest.TestCase):
         for car_config in TestVehicle.cars_config:
             car = Car(*car_config)
             self.assertTrue(car.registration_number.isupper())
+
+    def test_vehicle_type(self):
+        """
+        Assert if vehicle(car) type is VehicleType.
+        """
+        for car_config in TestVehicle.cars_config:
+            car = Car(*car_config)
+            self.assertIsInstance(car.type_, VehicleType)
+    
+    def test_vehicle_parking_ticket_assignment(self):
+        assigned_ticket_ids = set()
+        for car_config in TestVehicle.cars_config:
+            car = Car(*car_config)
+            parking_ticket = FourWheelerParkingTicket()
+            car.ticket = parking_ticket
+            self.assertNotIn(parking_ticket.id_, assigned_ticket_ids)
+
+    def test_type_predicate(self):
+        for car_config in TestVehicle.cars_config:
+            car = Car(*car_config)
+            self.assertTrue(car.type_predicate(VehicleType.CAR))
+
+    def test_allocate_parking_spot(self):
+        for car_config in TestVehicle.cars_config:
+            car = Car(*car_config)
+            parking_spot = FourWheelerSpot()
+
+            # check vehicle's parking-spot before allocation
+            self.assertFalse(car.is_vehicle_parked())
+
+            # check vehicle's parking-spot after allocation
+            car.allocate_parking_spot = parking_spot
+            self.assertTrue(car.is_vehicle_parked())
+
+    def test__deallocate_parking_spot(self):
+        for car_config in TestVehicle.cars_config:
+            car = Car(*car_config)
+            parking_spot = FourWheelerSpot()
+
+            # allocate parking-spot
+            car.allocate_parking_spot = parking_spot
+
+            # parking-spot deallocation
+            car._deallocate_parking_spot()
+            self.assertFalse(car.is_vehicle_parked())
+            self.assertIsNone(car.parking_spot)
+            self.assertIsNone(car.ticket)
+
+    def test_is_vehicle_parked(self):
+        for car_config in TestVehicle.cars_config:
+            car = Car(*car_config)
+            parking_spot = FourWheelerSpot()
+
+            # check parking-spot allocation
+            car.allocate_parking_spot = parking_spot
+            self.assertTrue(car.is_vehicle_parked())
+
+            # check parking-spot deallocation
+            car._deallocate_parking_spot()
+            self.assertFalse(car.is_vehicle_parked())
