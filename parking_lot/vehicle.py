@@ -46,6 +46,22 @@ class Vehicle(ABC):
         deallocate_ticket()
         self._parking_spot = None
 
+    @property
+    def ticket(self) -> ParkingTicket:
+        return self._ticket
+
+    @ticket.setter
+    def ticket(self, ticket: ParkingTicket):
+        if not self._ticket:
+            self._ticket = ticket
+        return self._ticket
+
+    def is_vehicle_parked(self) -> bool:
+        """
+        check if vehicle is alloted with parking spot
+        """
+        return True if self._parking_spot else False
+
 
 class Car(Vehicle):
     def __init__(self, registration_number: str, color: str):
