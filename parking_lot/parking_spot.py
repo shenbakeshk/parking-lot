@@ -22,6 +22,18 @@ class ParkingSpot(ABC):
     def parking_spot_type(self):
         return self._parking_spot_type
 
+    def occupy_spot(self) -> None:
+        """
+        Occupy parking-spot.
+        """
+        self._free = False
+
+    def free_up_spot(self) -> None:
+        """
+        Free up parking-spot.
+        """
+        self._free = True
+
 
 class FourWheelerSpot(ParkingSpot):
     def __init__(self):
