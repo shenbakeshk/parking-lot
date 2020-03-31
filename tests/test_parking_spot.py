@@ -22,3 +22,8 @@ class TestParkingSpot(unittest.TestCase):
         parking_spot = FourWheelerSpot()
         parking_spot.occupy_spot()
         self.assertFalse(parking_spot.is_free())
+
+    def test_free_up_spot(self):
+        parking_spot = FourWheelerSpot()
+        parking_spot.free_up_spot()
+        self.assertTrue(parking_spot.is_free())
