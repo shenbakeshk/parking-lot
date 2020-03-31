@@ -32,6 +32,12 @@ class Vehicle(ABC):
     def parking_spot(self):
         return self._parking_spot
 
+    @parking_spot.setter
+    def allocate_parking_spot(
+        self, parking_spot: ParkingSpot
+    ):
+        self._parking_spot = parking_spot
+
 
 class Car(Vehicle):
     def __init__(self, registration_number: str, color: str):
