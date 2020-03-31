@@ -38,6 +38,14 @@ class Vehicle(ABC):
     ):
         self._parking_spot = parking_spot
 
+    def _deallocate_parking_spot(self):
+        def deallocate_ticket():
+            if self._ticket:
+                self._ticket = None
+
+        deallocate_ticket()
+        self._parking_spot = None
+
 
 class Car(Vehicle):
     def __init__(self, registration_number: str, color: str):
