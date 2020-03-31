@@ -1,6 +1,8 @@
 from abc import ABC
 
 from parking_lot.constants import VehicleType
+from parking_lot.parking_spot import ParkingSpot
+from parking_lot.parking_ticket import ParkingTicket
 
 
 class Vehicle(ABC):
@@ -30,3 +32,8 @@ class Vehicle(ABC):
     def parking_spot(self):
         return self._parking_spot
 
+
+class Car(Vehicle):
+    def __init__(self, registration_number: str, color: str):
+        super().__init__(
+            registration_number, color, VehicleType.CAR)
