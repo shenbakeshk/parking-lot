@@ -62,6 +62,11 @@ class Vehicle(ABC):
         """
         return True if self._parking_spot else False
 
+    def type_predicate(
+        self, vehicle_type: VehicleType
+    ):
+        return True if self._type is vehicle_type else False
+
 
 class Car(Vehicle):
     def __init__(self, registration_number: str, color: str):
