@@ -33,7 +33,7 @@ class Vehicle(ABC):
         return self._parking_spot
 
     @parking_spot.setter
-    def allocate_parking_spot(
+    def parking_spot(
         self, parking_spot: ParkingSpot
     ):
         self._parking_spot = parking_spot

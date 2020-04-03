@@ -61,7 +61,7 @@ class TestVehicle(unittest.TestCase):
             self.assertFalse(car.is_vehicle_parked())
 
             # check vehicle's parking-spot after allocation
-            car.allocate_parking_spot = parking_spot
+            car.parking_spot = parking_spot
             self.assertTrue(car.is_vehicle_parked())
 
     def test__deallocate_parking_spot(self):
@@ -70,7 +70,7 @@ class TestVehicle(unittest.TestCase):
             parking_spot = FourWheelerSpot()
 
             # allocate parking-spot
-            car.allocate_parking_spot = parking_spot
+            car.parking_spot = parking_spot
 
             # parking-spot deallocation
             car._deallocate_parking_spot()
@@ -84,7 +84,7 @@ class TestVehicle(unittest.TestCase):
             parking_spot = FourWheelerSpot()
 
             # check parking-spot allocation
-            car.allocate_parking_spot = parking_spot
+            car.parking_spot = parking_spot
             self.assertTrue(car.is_vehicle_parked())
 
             # check parking-spot deallocation
