@@ -1,7 +1,7 @@
 import itertools
 from typing import List
 
-from parking_lot.constants import VehicleType
+from parking_lot.constants import VehicleType, ParkingLotEvent
 from parking_lot.parking_spot import ParkingSpot
 from parking_lot.parking_ticket import FourWheelerParkingTicket
 from parking_lot.vehicle import Vehicle
@@ -53,6 +53,17 @@ class ParkingLot:
     @property
     def id_(self):
         return self._id
+
+    def _update_parking_lot(
+        self, event: ParkingLotEvent, vehicle: Vehicle
+    ) -> None:
+        """
+        Update parking-lot on ENTRY/EXIT of vehicles
+        """
+        if event is ParkingLotEvent.PARK:
+            self._park_vehicle(vehicle)
+        elif event is ParkingLotEvent.UNPARK:
+            self._unpark_vehicle(vehicle)
 
     def _is_parking_spot_available(self, vehicle_type: VehicleType) -> bool:
         """
