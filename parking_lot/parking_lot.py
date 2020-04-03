@@ -60,7 +60,7 @@ class ParkingLot:
         return self._color_vehicles_map
 
     @color_vehicles_map.setter
-    def initialize_vehicles_map(self):
+    def initialize_color_vehicles_map(self):
         if self._color_vehicles_map is None:
             self._color_vehicles_map = defaultdict(list)
 
