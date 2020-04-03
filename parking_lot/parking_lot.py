@@ -65,7 +65,7 @@ class ParkingLot:
 
     @property
     def parked_vehicles(self):
-        return self._color_vehicles_map
+        return self._parked_vehicles
 
     def initialize_parked_vehicles(self):
         if self._parked_vehicles is None:
