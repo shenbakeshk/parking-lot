@@ -63,6 +63,15 @@ class ParkingLot:
             parking_event = ParkingLotEvent.PARK
             self._update_parking_lot(parking_event, vehicle)
 
+    def free_up_parking_spot(self, vehicle: Vehicle) -> None:
+        """
+        Change state of vehicle, parking-spot 
+        and parking-lot on vehicle's EXIT.
+        """
+        if vehicle.is_vehicle_parked():
+            unparking_event = ParkingLotEvent.UNPARK
+            self._update_parking_lot(unparking_event, vehicle)
+
     def _update_parking_lot(
         self, event: ParkingLotEvent, vehicle: Vehicle
     ) -> None:
