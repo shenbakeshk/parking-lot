@@ -140,3 +140,29 @@ class ParkingLot:
                 )
         else:
             raise Exception("Invalid vehicle type request")
+
+    def _unpark_vehicle(self, vehicle: Vehicle) -> None:
+        """
+        Unpark vehicle from parking lot.
+        """
+        parking_spot = vehicle.parking_spot
+        parking_spot.free_up_spot()
+
+        # this will remove ref to allocated ticket
+        # and be gc'ed
+        vehicle._deallocate_parking_spot()
+        self._decrement_spot_count(vehicle.type_)
+
+    def _decrement_spot_count(self, vehicle_type: VehicleType) -> None:
+        """
+        Update parking-lot state on vehicle's exit.
+        """
+        if vehicle_type is VehicleType.CAR:
+            curr_count = self._curr_four_wheelers_parked
+            self._curr_four_wheelers_parked = max(0, curr_count - 1)
+            self._next_four_wheeler_spot = \
+                self._prefetch_next_available_parking_spot(
+                    self._four_wheeler_spots
+                )
+        else:
+            raise Exception("Invalid vehicle type request")
