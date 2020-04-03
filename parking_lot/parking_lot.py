@@ -1,6 +1,8 @@
 import itertools
 from typing import List
 
+from parking_lot.constants import VehicleType
+
 
 class ParkingLot:
     """
@@ -44,3 +46,19 @@ class ParkingLot:
         # data store
         self._color_vehicles_map = None
         self._parked_vehicles = None
+
+    @property
+    def id_(self):
+        return self._id
+
+    def _is_parking_spot_available(self, vehicle_type: VehicleType) -> bool:
+        """
+        Check availability of spot for incoming vehicle.
+        Return bool value.
+        """
+        if vehicle_type is VehicleType.CAR:
+            # check if there is any parking available
+            return self._curr_four_wheelers_parked \
+                < self._max_four_wheeler_spots
+        else:
+            raise Exception("Invalid vehicle type request")
