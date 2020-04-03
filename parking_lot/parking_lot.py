@@ -82,9 +82,9 @@ class ParkingLot:
         flags = []
 
         # check if vehicle part of data stores
-        flags.append(not vehicle.is_vehicle_parked())
-        flags.append(vehicle.registration_number not in self._parked_vehicles)
-        flags.append(vehicle not in self._color_vehicles_map[vehicle.color])
+        flags.append(vehicle.is_vehicle_parked())
+        flags.append(vehicle.registration_number in self._parked_vehicles)
+        flags.append(vehicle in self._color_vehicles_map[vehicle.color])
 
         return all(flags)
 
