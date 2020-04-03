@@ -104,6 +104,13 @@ class ParkingLot:
             unparking_event = ParkingLotEvent.UNPARK
             self._update_parking_lot(unparking_event, vehicle)
 
+    def _add_vehicle_details_to_parking_lot_data_store(
+        self, vehicle: Vehicle
+    ) -> None:
+        if not self._is_vehicle_parked_in_parking_lot(vehicle):
+            self._parked_vehicles[vehicle.registration_number] = vehicle
+            self._color_vehicles_map[vehicle.color].add(vehicle)
+
     def _update_parking_lot(
         self, event: ParkingLotEvent, vehicle: Vehicle
     ) -> None:
@@ -112,6 +119,7 @@ class ParkingLot:
         """
         if event is ParkingLotEvent.PARK:
             self._park_vehicle(vehicle)
+            self._add_vehicle_details_to_parking_lot_data_store(vehicle)
         elif event is ParkingLotEvent.UNPARK:
             self._unpark_vehicle(vehicle)
 
