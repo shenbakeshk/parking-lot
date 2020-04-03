@@ -12,7 +12,7 @@ class TestParkingSpot(unittest.TestCase):
             self.assertEqual(i, parking_spot.id_)
 
     def test_parking_spot_type(self):
-        for i in range(1, 11):
+        for __ in range(1, 11):
             parking_spot = FourWheelerSpot()
             self.assertIs(
                 parking_spot.parking_spot_type, 
