@@ -3,6 +3,8 @@ from typing import List
 
 from parking_lot.constants import VehicleType
 from parking_lot.parking_spot import ParkingSpot
+from parking_lot.parking_ticket import FourWheelerParkingTicket
+from parking_lot.vehicle import Vehicle
 
 
 class ParkingLot:
@@ -75,3 +77,11 @@ class ParkingLot:
             parking_spot = self._four_wheeler_spots[
                 self._next_four_wheeler_spot]
         return parking_spot
+
+    def _issue_new_parking_ticket(self, vehicle: Vehicle) -> None:
+        """
+        Assign ticket to vehicle(owner) based on 
+        vehicle type.
+        """
+        if vehicle.type_ is VehicleType.CAR:
+            vehicle.ticket = FourWheelerParkingTicket()
