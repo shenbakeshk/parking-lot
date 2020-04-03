@@ -66,6 +66,17 @@ class ParkingLot:
         else:
             raise Exception("Invalid vehicle type request")
 
+    def _park_vehicle(self, vehicle: Vehicle) -> None:
+        """
+        Park vehicle in parking-lot.
+        """
+        vehicle_type = vehicle.type_
+        parking_spot = self._select_next_available_parking_spot(vehicle_type)
+        parking_spot.occupy_spot()
+        vehicle.parking_spot = parking_spot
+        self._issue_new_parking_ticket(vehicle)
+        self._increment_spot_count(vehicle_type)
+
     def _select_next_available_parking_spot(
         self, vehicle_type: VehicleType
     ) -> ParkingSpot:
