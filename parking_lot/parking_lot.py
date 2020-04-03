@@ -85,3 +85,33 @@ class ParkingLot:
         """
         if vehicle.type_ is VehicleType.CAR:
             vehicle.ticket = FourWheelerParkingTicket()
+
+    def _prefetch_next_available_parking_spot(
+        self, parking_spots: List[ParkingSpot]
+    ) -> int:
+        """
+        Pick the next available parking-spot from a given list of 
+        parking-spots.
+        Return free parking-spot's index(zero based) 
+        in given list of parking-spots. 
+        If no parking-spots available return -1.
+        """
+        for i, parking_spot in enumerate(parking_spots):
+            if parking_spot.is_free():
+                return i
+        return -1
+
+    def _increment_spot_count(self, vehicle_type: VehicleType) -> None:
+        """
+        Update parking-lot state on new vehicle's entry.
+        """
+        if vehicle_type is VehicleType.CAR:
+            curr_count = self._curr_four_wheelers_parked
+            self._curr_four_wheelers_parked = \
+                min(self._max_four_wheeler_spots, curr_count + 1)
+            self._next_four_wheeler_spot = \
+                self._prefetch_next_available_parking_spot(
+                    self._four_wheeler_spots
+                )
+        else:
+            raise Exception("Invalid vehicle type request")
