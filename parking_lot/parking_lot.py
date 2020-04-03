@@ -61,7 +61,7 @@ class ParkingLot:
 
     def initialize_color_vehicles_map(self):
         if self._color_vehicles_map is None:
-            self._color_vehicles_map = defaultdict(list)
+            self._color_vehicles_map = defaultdict(set)
 
     @property
     def parked_vehicles(self):
