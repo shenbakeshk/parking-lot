@@ -73,11 +73,26 @@ class ParkingLot:
         if self._parked_vehicles is None:
             self._parked_vehicles = {}
 
+    def _is_vehicle_parked_in_parking_lot(self, vehicle: Vehicle) -> bool:
+        """
+        Check if vehicle is parked in parking-lot.
+        Return bool.
+        """
+        # initialize flags iterable
+        flags = []
+
+        # check if vehicle part of data stores
+        flags.append(vehicle.is_vehicle_parked())
+        flags.append(vehicle.registration_number not in self._parked_vehicles)
+        flags.append(vehicle not in self._color_vehicles_map[vehicle.color])
+
+        return all(flags)
+
     def allocate_parking_spot(self, vehicle: Vehicle) -> None:
         """
         Allocate parking spot to incoming vehicle.
         """
-        if not vehicle.is_vehicle_parked() \
+        if not self._is_vehicle_parked_in_parking_lot() \
             and self._is_parking_spot_available(vehicle.type_):
             parking_event = ParkingLotEvent.PARK
             self._update_parking_lot(parking_event, vehicle)
