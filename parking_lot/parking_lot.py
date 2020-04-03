@@ -54,6 +54,15 @@ class ParkingLot:
     def id_(self):
         return self._id
 
+    def _is_four_wheeler_spot_available(self):
+        """
+        Check if any four-wheeler parking-spot available.
+        """
+        any_four_wheeler_spot = self._curr_four_wheelers_parked \
+                < self._max_four_wheeler_spots
+        is_next_spot_counter_valid = self._next_four_wheeler_spot > 0
+        return any_four_wheeler_spot and is_next_spot_counter_valid
+
     def _is_parking_spot_available(self, vehicle_type: VehicleType) -> bool:
         """
         Check availability of spot for incoming vehicle.
@@ -61,8 +70,7 @@ class ParkingLot:
         """
         if vehicle_type is VehicleType.CAR:
             # check if there is any parking available
-            return self._curr_four_wheelers_parked \
-                < self._max_four_wheeler_spots
+            return self._is_four_wheeler_spot_available()
         else:
             raise Exception("Invalid vehicle type request")
 
