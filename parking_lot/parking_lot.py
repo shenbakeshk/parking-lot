@@ -100,7 +100,7 @@ class ParkingLot:
         """
         any_four_wheeler_spot = self._curr_four_wheelers_parked \
                 < self._max_four_wheeler_spots
-        is_next_spot_counter_valid = self._next_four_wheeler_spot > 0
+        is_next_spot_counter_valid = self._next_four_wheeler_spot >= 0
         return any_four_wheeler_spot and is_next_spot_counter_valid
 
     def _park_vehicle(self, vehicle: Vehicle) -> None:
