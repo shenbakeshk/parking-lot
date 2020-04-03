@@ -54,6 +54,15 @@ class ParkingLot:
     def id_(self):
         return self._id
 
+    def allocate_parking_spot(self, vehicle: Vehicle) -> None:
+        """
+        Allocate parking spot to incoming vehicle.
+        """
+        if not vehicle.is_vehicle_parked() \
+            and self._is_parking_spot_available(vehicle.type_):
+            parking_event = ParkingLotEvent.PARK
+            self._update_parking_lot(parking_event, vehicle)
+
     def _update_parking_lot(
         self, event: ParkingLotEvent, vehicle: Vehicle
     ) -> None:
