@@ -1,3 +1,4 @@
+from collections import defaultdict
 import itertools
 from typing import List
 
@@ -53,6 +54,24 @@ class ParkingLot:
     @property
     def id_(self):
         return self._id
+
+    @property
+    def color_vehicles_map(self):
+        return self._color_vehicles_map
+
+    @color_vehicles_map.setter
+    def initialize_vehicles_map(self):
+        if self._color_vehicles_map is None:
+            self._color_vehicles_map = defaultdict(list)
+
+    @property
+    def parked_vehicles(self):
+        return self._color_vehicles_map
+
+    @parked_vehicles.setter
+    def initialize_parked_vehicles(self):
+        if self._parked_vehicles is None:
+            self._parked_vehicles = {}
 
     def allocate_parking_spot(self, vehicle: Vehicle) -> None:
         """
