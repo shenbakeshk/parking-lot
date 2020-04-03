@@ -90,7 +90,7 @@ class ParkingLot:
         """
         Allocate parking spot to incoming vehicle.
         """
-        if not self._is_vehicle_parked_in_parking_lot() \
+        if not self._is_vehicle_parked_in_parking_lot(vehicle) \
             and self._is_parking_spot_available(vehicle.type_):
             parking_event = ParkingLotEvent.PARK
             self._update_parking_lot(parking_event, vehicle)
@@ -100,7 +100,7 @@ class ParkingLot:
         Change state of vehicle, parking-spot 
         and parking-lot on vehicle's EXIT.
         """
-        if self._is_vehicle_parked_in_parking_lot():
+        if self._is_vehicle_parked_in_parking_lot(vehicle):
             unparking_event = ParkingLotEvent.UNPARK
             self._update_parking_lot(unparking_event, vehicle)
 
