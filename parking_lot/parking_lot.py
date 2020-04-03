@@ -1,6 +1,6 @@
 from collections import defaultdict
 import itertools
-from typing import List
+from typing import List, Set
 
 from parking_lot.constants import VehicleType, ParkingLotEvent
 from parking_lot.parking_spot import ParkingSpot
@@ -80,13 +80,14 @@ class ParkingLot:
         flags = []
 
         # check if vehicle part of data stores
-        flags.append(vehicle.is_vehicle_parked())
-        flags.append(vehicle.registration_number in self._parked_vehicles)
-        flags.append(
-            vehicle.color in self._color_vehicles_map 
-            and vehicle in self._color_vehicles_map[vehicle.color])
+        if vehicle.is_vehicle_parked():
+            return True
+        if vehicle.registration_number in self._parked_vehicles:
+            return True
+        if vehicle in self._color_vehicles_map.get(vehicle.color, {}):
+            return True
 
-        return all(flags)
+        return False
 
     def allocate_parking_spot(self, vehicle: Vehicle) -> None:
         """
@@ -112,9 +113,8 @@ class ParkingLot:
         """
         Add vehicle details to parking-lot data store on parking vehicle.
         """
-        if not self._is_vehicle_parked_in_parking_lot(vehicle):
-            self._parked_vehicles[vehicle.registration_number] = vehicle
-            self._color_vehicles_map[vehicle.color].add(vehicle)
+        self._parked_vehicles[vehicle.registration_number] = vehicle
+        self._color_vehicles_map[vehicle.color].add(vehicle)
 
     def _remove_vehicle_details(
         self, vehicle: Vehicle
@@ -122,9 +122,8 @@ class ParkingLot:
         """
         Remove vehicle details from parking-lot data store on vehicle exit.
         """
-        if self._is_vehicle_parked_in_parking_lot(vehicle):
-            del self._parked_vehicles[vehicle.registration_number]
-            self._color_vehicles_map[vehicle.color].remove(vehicle)
+        self._parked_vehicles.pop(vehicle.registration_number)
+        self._color_vehicles_map[vehicle.color].remove(vehicle)
 
     def _update_parking_lot(
         self, event: ParkingLotEvent, vehicle: Vehicle
