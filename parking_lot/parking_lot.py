@@ -253,3 +253,21 @@ class ParkingLot:
                 )
         else:
             raise Exception("Invalid vehicle type request")
+
+    def get_vehicle_spot_number(
+        self, vehicle_registration_number: str
+    ) -> ParkingSpot:
+        """
+        Return vehicle's parking spot number.
+        """
+        if not(
+            isinstance(vehicle_registration_number, str)
+            and vehicle_registration_number.isupper()
+        ):
+            return
+
+        vehicle: Vehicle = self._parked_vehicles.get(vehicle_registration_number)
+        if not vehicle:
+            return
+        parking_spot: ParkingSpot = vehicle.parking_spot
+        return parking_spot.id_
