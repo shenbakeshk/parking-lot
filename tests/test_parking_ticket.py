@@ -6,7 +6,10 @@ from parking_lot.parking_ticket import FourWheelerParkingTicket
 
 class TestParkingTicket(unittest.TestCase):
     def test_four_wheeler_parking_ticket(self):
-        for i in range(1, 11):
+        curr_parking_spot = next(FourWheelerParkingTicket.ticket_counter)
+        start = curr_parking_spot + 1
+        end = start + 100
+        for i in range(start, end):
             ticket = FourWheelerParkingTicket()
             self.assertEqual(i, ticket.id_)
             self.assertIsInstance(ticket, FourWheelerParkingTicket)

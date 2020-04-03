@@ -1,7 +1,7 @@
 import unittest
 
 from parking_lot import FourWheelerParkingLotBuilder, ParkingLotDirector
-
+from parking_lot.parking_lot import ParkingLot
 
 class TestParkingLotBuilder(unittest.TestCase):
     def _build_default_parking_lot(self):
@@ -20,6 +20,5 @@ class TestParkingLotBuilder(unittest.TestCase):
 
     def test_parking_lot_builder(self):
         parking_lot = self._build_default_parking_lot()
-        for i, spot in enumerate(parking_lot._four_wheeler_spots, 1):
-            self.assertEqual(spot.id_, i)
+        self.assertIsInstance(parking_lot, ParkingLot)
         

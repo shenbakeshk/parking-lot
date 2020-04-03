@@ -6,8 +6,8 @@ from parking_lot.parking_spot import ParkingSpot, FourWheelerSpot
 
 class TestParkingSpot(unittest.TestCase):
     def test_parking_spot(self):
-        parking_spot = FourWheelerSpot()
-        start = parking_spot.id_ + 1
+        curr_parking_spot = next(FourWheelerSpot.spot_counter)
+        start = curr_parking_spot + 1
         end = start + 100
         for i in range(start, end):
             parking_spot = FourWheelerSpot()
