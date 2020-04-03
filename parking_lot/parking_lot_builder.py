@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from collections import defaultdict
 
 from parking_lot.parking_lot import ParkingLot
 from parking_lot.parking_spot import FourWheelerSpot
@@ -42,7 +41,7 @@ class FourWheelerParkingLotBuilder(ParkingLotBuilder):
         """
         Initialize local data store.
         """
-        self._parking_lot._color_vehicles_map = defaultdict(list)
+        self._parking_lot._color_vehicles_map = {}
         self._parking_lot._parked_vehicles = {}
 
     def get_parking_lot(self):
