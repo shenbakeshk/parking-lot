@@ -46,3 +46,22 @@ class FourWheelerParkingLotBuilder(ParkingLotBuilder):
 
     def get_parking_lot(self):
         return self._parking_lot
+
+class ParkingLotDirector:
+    def __init__(self, parking_lot_builder: ParkingLotBuilder):
+        self.parking_lot_builder = parking_lot_builder
+        self.parking_lot = None
+
+    def build_parking_lot(self, max_four_wheeler_spots: int) -> ParkingLot:
+        """
+        Build parking-lot.
+        """
+        self.parking_lot_builder.add_four_wheeler_parking_spots(max_four_wheeler_spots)
+        self.parking_lot_builder.init_parking_lot_data_store()
+        self.parking_lot = self.parking_lot_builder.get_parking_lot()
+
+    def get_parking_lot(self) -> ParkingLot:
+        """
+        Return built parking-lot.
+        """
+        return self.parking_lot
