@@ -102,7 +102,7 @@ class ParkingLot:
         Change state of vehicle, parking-spot 
         and parking-lot on vehicle's EXIT.
         """
-        if vehicle.is_vehicle_parked():
+        if self._is_vehicle_parked_in_parking_lot():
             unparking_event = ParkingLotEvent.UNPARK
             self._update_parking_lot(unparking_event, vehicle)
 
