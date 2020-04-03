@@ -41,8 +41,8 @@ class FourWheelerParkingLotBuilder(ParkingLotBuilder):
         """
         Initialize local data store.
         """
-        self._parking_lot._color_vehicles_map = {}
-        self._parking_lot._parked_vehicles = {}
+        self._parking_lot.initialize_color_vehicles_map()
+        self._parking_lot.initialize_parked_vehicles()
 
     def get_parking_lot(self):
         return self._parking_lot
