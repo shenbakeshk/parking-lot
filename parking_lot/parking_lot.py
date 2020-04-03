@@ -78,12 +78,18 @@ class ParkingLot:
         """
         Park vehicle in parking-lot.
         """
+        self._allocate_ticket_to_incoming_vehicle(vehicle)
+        self._issue_new_parking_ticket(vehicle)
+        self._increment_spot_count(vehicle.type_)
+
+    def _allocate_ticket_to_incoming_vehicle(self, vehicle: Vehicle) -> None:
+        """
+        Allocate ticket to incoming vehicle.
+        """
         vehicle_type = vehicle.type_
         parking_spot = self._select_next_available_parking_spot(vehicle_type)
         parking_spot.occupy_spot()
         vehicle.parking_spot = parking_spot
-        self._issue_new_parking_ticket(vehicle)
-        self._increment_spot_count(vehicle_type)
 
     def _select_next_available_parking_spot(
         self, vehicle_type: VehicleType
