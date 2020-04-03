@@ -82,7 +82,9 @@ class ParkingLot:
         # check if vehicle part of data stores
         flags.append(vehicle.is_vehicle_parked())
         flags.append(vehicle.registration_number in self._parked_vehicles)
-        flags.append(vehicle in self._color_vehicles_map[vehicle.color])
+        flags.append(
+            vehicle.color in self._color_vehicles_map 
+            and vehicle in self._color_vehicles_map[vehicle.color])
 
         return all(flags)
 
@@ -104,12 +106,25 @@ class ParkingLot:
             unparking_event = ParkingLotEvent.UNPARK
             self._update_parking_lot(unparking_event, vehicle)
 
-    def _add_vehicle_details_to_parking_lot_data_store(
+    def _add_vehicle_details(
         self, vehicle: Vehicle
     ) -> None:
+        """
+        Add vehicle details to parking-lot data store on parking vehicle.
+        """
         if not self._is_vehicle_parked_in_parking_lot(vehicle):
             self._parked_vehicles[vehicle.registration_number] = vehicle
             self._color_vehicles_map[vehicle.color].add(vehicle)
+
+    def _remove_vehicle_details(
+        self, vehicle: Vehicle
+    ) -> None:
+        """
+        Remove vehicle details from parking-lot data store on vehicle exit.
+        """
+        if self._is_vehicle_parked_in_parking_lot(vehicle):
+            del self._parked_vehicles[vehicle.registration_number]
+            self._color_vehicles_map[vehicle.color].remove(vehicle)
 
     def _update_parking_lot(
         self, event: ParkingLotEvent, vehicle: Vehicle
@@ -119,9 +134,10 @@ class ParkingLot:
         """
         if event is ParkingLotEvent.PARK:
             self._park_vehicle(vehicle)
-            self._add_vehicle_details_to_parking_lot_data_store(vehicle)
+            self._add_vehicle_details(vehicle)
         elif event is ParkingLotEvent.UNPARK:
             self._unpark_vehicle(vehicle)
+            self._remove_vehicle_details(vehicle)
 
     def _is_parking_spot_available(self, vehicle_type: VehicleType) -> bool:
         """
