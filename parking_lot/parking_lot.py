@@ -84,7 +84,7 @@ class ParkingLot:
             return True
         if vehicle.registration_number in self._parked_vehicles:
             return True
-        if vehicle in self._color_vehicles_map.get(vehicle.color, {}):
+        if vehicle.registration_number in self._color_vehicles_map.get(vehicle.color, {}):
             return True
 
         return False
@@ -114,7 +114,7 @@ class ParkingLot:
         Add vehicle details to parking-lot data store on parking vehicle.
         """
         self._parked_vehicles[vehicle.registration_number] = vehicle
-        self._color_vehicles_map[vehicle.color].add(vehicle)
+        self._color_vehicles_map[vehicle.color].add(vehicle.registration_number)
 
     def _remove_vehicle_details(
         self, vehicle: Vehicle
@@ -122,8 +122,13 @@ class ParkingLot:
         """
         Remove vehicle details from parking-lot data store on vehicle exit.
         """
-        self._parked_vehicles.pop(vehicle.registration_number)
-        self._color_vehicles_map[vehicle.color].remove(vehicle)
+        if vehicle.registration_number in self._parked_vehicles:
+            del self._parked_vehicles[vehicle.registration_number]
+        if (
+            vehicle.color in self._color_vehicles_map 
+            and vehicle.registration_number in self._color_vehicles_map.get(vehicle.color, set())
+        ):
+            self._color_vehicles_map[vehicle.color].remove(vehicle.registration_number)
 
     def _update_parking_lot(
         self, event: ParkingLotEvent, vehicle: Vehicle
