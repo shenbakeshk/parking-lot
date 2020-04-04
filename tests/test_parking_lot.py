@@ -68,3 +68,19 @@ class TestParkingLot(unittest.TestCase):
                 car.parking_spot.id_
             )
 
+    def test_get_registration_numbers_of_vehicle_with_color(self):
+        parking_lot = self._build_default_parking_lot()
+        colors_map = defaultdict(set)
+        for config in TestParkingLot.cars_config:
+            car = Car(*config)
+            colors_map[config[1]].add(car)
+            parking_lot.allocate_parking_spot(car)
+            colors_map[config[1].lower()].add(car)
+
+        for color in colors_map:
+            vehicle_registration_numbers = \
+                set(parking_lot.get_registration_numbers_of_vehicle_with_color(color))
+            self.assertEqual(len(colors_map[color]), len(vehicle_registration_numbers))
+            for car in colors_map[color]:
+                self.assertIn(car.registration_number, vehicle_registration_numbers)
+

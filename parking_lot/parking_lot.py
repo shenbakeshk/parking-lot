@@ -260,6 +260,22 @@ class ParkingLot:
         else:
             raise Exception("Invalid vehicle type request")
 
+    def get_registration_numbers_of_vehicle_with_color(
+        self, color: str, vehicle_type: VehicleType = None
+    ) -> List[str]:
+        """
+        Scan list of vehicles(of particular type if provided) 
+        with particular color.
+        Return list of vehicles' registration numbers.
+        """
+        res = []
+        vehicles_reg_no_set: Set[Vehicle] = self._color_vehicles_map.get(color.lower(), set())
+        for reg_no in vehicles_reg_no_set:
+            vehicle = self._parked_vehicles[reg_no]
+            if not vehicle_type or vehicle.type_predicate(vehicle_type):
+                res.append(vehicle.registration_number)
+        return res
+
     def get_vehicle_spot_number(
         self, vehicle_registration_number: str
     ) -> ParkingSpot:
