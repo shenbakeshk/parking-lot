@@ -16,20 +16,19 @@ class TestParkingLot(unittest.TestCase):
         ("KA-01-HH-2701", "Blue"), 
         ("KA-01-HH-3141", "Black"),
     )
+    _parking_lot = None
 
     def _build_default_parking_lot(self):
         # default four_wheeler spots count
         max_four_wheeler_spots: int = 10
 
         # Pythonic way to check if attr exists
-        try:
-            return self.parking_lot
-        except AttributeError:
+        if TestParkingLot._parking_lot is None:
             four_wheeler_parking_lot_builder = FourWheelerParkingLotBuilder()
             director = ParkingLotDirector(four_wheeler_parking_lot_builder)
             director.build_parking_lot(max_four_wheeler_spots)
-            self.parking_lot = director.get_parking_lot()
-        return self.parking_lot
+            TestParkingLot._parking_lot = director.get_parking_lot()
+        return TestParkingLot._parking_lot
 
     def test_allocate_parking_spot(self):
         parking_lot = self._build_default_parking_lot()
