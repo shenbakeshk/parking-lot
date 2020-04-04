@@ -15,7 +15,7 @@ class TestParkingLotBuilder(unittest.TestCase):
             four_wheeler_parking_lot_builder = FourWheelerParkingLotBuilder()
             director = ParkingLotDirector(four_wheeler_parking_lot_builder)
             director.build_parking_lot(max_four_wheeler_spots)
-            TestParkingLot._parking_lot = director.get_parking_lot()
+            TestParkingLotBuilder._parking_lot = director.get_parking_lot()
         return TestParkingLotBuilder._parking_lot
 
     def test_parking_lot_builder(self):
