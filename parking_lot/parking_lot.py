@@ -276,6 +276,20 @@ class ParkingLot:
                 res.append(vehicle.registration_number)
         return res
 
+    def get_parking_spot_numbers_of_vehicles_with_color(
+        self, color: str, vehicle_type: VehicleType = None
+    ) -> List[int]:
+        """
+        Return all parking-spot numbers(id).
+        """
+        res = []
+        vehicles_reg_no_set: Set[str] = self._color_vehicles_map.get(color.lower(), set())
+        for reg_no in vehicles_reg_no_set:
+            vehicle: Vehicle = self._parked_vehicles[reg_no]
+            if not vehicle_type or vehicle.type_predicate(vehicle_type):
+                res.append(vehicle.parking_spot.id_)
+        return res
+
     def get_vehicle_spot_number(
         self, vehicle_registration_number: str
     ) -> ParkingSpot:
