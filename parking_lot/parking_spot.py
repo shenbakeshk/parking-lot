@@ -21,7 +21,7 @@ class ParkingSpot(ABC):
 
     @property
     def vehicle(self):
-        self._vehicle
+        return self._vehicle
 
     @property
     def parking_spot_type(self):
