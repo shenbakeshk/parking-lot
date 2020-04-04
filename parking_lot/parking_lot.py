@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from collections import defaultdict
 import itertools
 from typing import List, Set
@@ -8,7 +9,54 @@ from parking_lot.parking_ticket import FourWheelerParkingTicket
 from parking_lot.vehicle import Vehicle
 
 
-class ParkingLot:
+class ParkingLot(ABC):
+    @abstractmethod
+    def get_parking_lot_status(self) -> List[tuple]:
+        """
+        Display parking-lot state.
+        """
+        pass
+
+    @abstractmethod
+    def get_vehicle_spot_number(self, vehicle_registration_number: str) -> int:
+        """
+        Return vehicle's parking-spot number
+        """
+        pass
+
+    @abstractmethod
+    def get_parking_spot_numbers_of_vehicles_with_color(
+        self, color: str, vehicle_type: VehicleType = None
+    ) -> List[int]:
+        """
+        Return parking-spot numbers of parked-vehicles with given color.
+        """
+        pass
+
+    @abstractmethod
+    def allocate_parking_spot(self, vehicle: Vehicle) -> None:
+        """
+        Allocate parking-spot for given vehicle.
+        """
+        pass
+
+    @abstractmethod
+    def free_up_parking_spot(self, parking_spot_id: int) -> None:
+        """
+        Free up parking-spot for given parked-vehicle.
+        """
+        pass
+
+    @abstractmethod
+    def get_registration_numbers_of_vehicle_with_color(
+        self, color: str, vehicle_type: VehicleType = None
+    ):
+        """
+        Return registration-numbers of parked-vehicles with given color.
+        """
+        pass
+
+class FourWheelerParkingLot(ParkingLot):
     """
     Parking-lot, a composition of multiple components like,
     parking-spots, parking-tickets, vehicles.
@@ -39,7 +87,7 @@ class ParkingLot:
     #     return cls._instance
 
     def __init__(self):
-        self._id = next(ParkingLot.parking_lot_counter)
+        self._id = next(FourWheelerParkingLot.parking_lot_counter)
 
         # four wheeler parking spots
         self._max_four_wheeler_spots = None
@@ -292,7 +340,7 @@ class ParkingLot:
 
     def get_vehicle_spot_number(
         self, vehicle_registration_number: str
-    ) -> ParkingSpot:
+    ) -> int:
         """
         Return vehicle's parking spot number.
         """
@@ -308,7 +356,7 @@ class ParkingLot:
         parking_spot: ParkingSpot = vehicle.parking_spot
         return parking_spot.id_
 
-    def get_parking_lot_status(self):
+    def get_parking_lot_status(self) -> List[tuple]:
         """
         Return status of parking-lot.
         """
