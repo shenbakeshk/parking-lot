@@ -9,6 +9,7 @@ class ParkingSpot(ABC):
     def __init__(self, parking_spot_type):
         self._id = next(ParkingSpot.spot_counter)
         self._free = True
+        self._vehicle = None
         self._parking_spot_type = parking_spot_type
 
     @property
@@ -19,19 +20,25 @@ class ParkingSpot(ABC):
         return self._free
 
     @property
+    def vehicle(self):
+        self._vehicle
+
+    @property
     def parking_spot_type(self):
         return self._parking_spot_type
 
-    def occupy_spot(self) -> None:
+    def occupy_spot(self, vehicle) -> None:
         """
         Occupy parking-spot.
         """
+        self._vehicle = vehicle
         self._free = False
 
     def free_up_spot(self) -> None:
         """
         Free up parking-spot.
         """
+        self._vehicle = None
         self._free = True
 
 

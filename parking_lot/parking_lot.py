@@ -175,7 +175,7 @@ class ParkingLot:
         """
         vehicle_type = vehicle.type_
         parking_spot = self._select_next_available_parking_spot(vehicle_type)
-        parking_spot.occupy_spot()
+        parking_spot.occupy_spot(vehicle)
         vehicle.parking_spot = parking_spot
 
     def _select_next_available_parking_spot(

@@ -1,7 +1,9 @@
 import unittest
 
+from parking_lot import FourWheelerParkingLotBuilder, ParkingLotDirector
 from parking_lot.constants import ParkingSpotType
 from parking_lot.parking_spot import ParkingSpot, FourWheelerSpot
+from parking_lot.vehicle import Car
 
 
 class TestParkingSpot(unittest.TestCase):
@@ -22,8 +24,13 @@ class TestParkingSpot(unittest.TestCase):
                 ParkingSpotType.FOUR_WHEELER)
 
     def test_occupy_spot(self):
+        four_wheeler_parking_lot_builder = FourWheelerParkingLotBuilder()
+        director = ParkingLotDirector(four_wheeler_parking_lot_builder)
+        director.build_parking_lot(10)
+        parking_lot = director.get_parking_lot()
+        car = Car("dummy_reg_no", "dummy_color")
         parking_spot = FourWheelerSpot()
-        parking_spot.occupy_spot()
+        parking_spot.occupy_spot(car)
         self.assertFalse(parking_spot.is_free())
 
     def test_free_up_spot(self):
