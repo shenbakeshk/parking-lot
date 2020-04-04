@@ -73,7 +73,7 @@ class FourWheelerParkingLotStatus(FourWheelerParkingLotCommand):
         if len(status) < 2:  # excluding header
             return ""
         
-        res = '\t\t'.join(status[0]) + '\n'
+        res = 'Slot No.\tRegistration No\t\tColour\n'
         for r in status[1:]:
             res += '\t\t'.join(map(lambda x: str(x), r)) + '\n'
 
