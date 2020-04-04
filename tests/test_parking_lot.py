@@ -51,7 +51,8 @@ class TestParkingLot(unittest.TestCase):
         parking_lot = self._build_default_parking_lot()
         car = Car("KA-01-HH-1234", "White")
         parking_lot.allocate_parking_spot(car)
-        parking_lot.free_up_parking_spot(car)
+        parking_spot = car.parking_spot
+        parking_lot.free_up_parking_spot(parking_spot)
         self.assertIsNone(car.ticket)
         self.assertIsNone(car.parking_spot)
         self.assertFalse(car.is_vehicle_parked())
