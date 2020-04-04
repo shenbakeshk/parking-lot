@@ -76,10 +76,6 @@ class ParkingLot:
         Check if vehicle is parked in parking-lot.
         Return bool.
         """
-        # initialize flags iterable
-        flags = []
-
-        # check if vehicle part of data stores
         if vehicle.is_vehicle_parked():
             return True
         if vehicle.registration_number in self._parked_vehicles:
@@ -98,12 +94,16 @@ class ParkingLot:
             parking_event = ParkingLotEvent.PARK
             self._update_parking_lot(parking_event, vehicle)
 
-    def free_up_parking_spot(self, parking_spot: ParkingSpot) -> None:
+    def free_up_parking_spot(self, parking_spot_id: int) -> None:
         """
         Change state of vehicle, parking-spot 
         and parking-lot on vehicle's EXIT.
         """
-        if not parking_spot.is_free():
+        if not 1 <= parking_spot_id <= self._max_four_wheeler_spots:
+            return
+
+        parking_spot: ParkingSpot = self._four_wheeler_spots[parking_spot_id - 1]
+        if parking_spot and not parking_spot.is_free():
             vehicle: Vehicle = parking_spot.vehicle
             if self._is_vehicle_parked_in_parking_lot(vehicle):
                 unparking_event = ParkingLotEvent.UNPARK
