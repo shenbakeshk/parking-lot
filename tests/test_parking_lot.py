@@ -1,3 +1,4 @@
+from collections import defaultdict
 import unittest
 
 from parking_lot import FourWheelerParkingLotBuilder, ParkingLotDirector
@@ -59,7 +60,11 @@ class TestParkingLot(unittest.TestCase):
 
     def test_get_vehicle_spot_number(self):
         parking_lot = self._build_default_parking_lot()
-        car = Car("KA-01-HH-1234", "White")
-        parking_lot.allocate_parking_spot(car)
-        spot_number = parking_lot.get_vehicle_spot_number(car.registration_number)
-        self.assertEqual(car.parking_spot.id_, spot_number)
+        for config in TestParkingLot.cars_config:
+            car = Car(*config)
+            parking_lot.allocate_parking_spot(car)
+            self.assertEqual(
+                parking_lot.get_vehicle_spot_number(car.registration_number), 
+                car.parking_spot.id_
+            )
+
