@@ -133,7 +133,7 @@ class FourWheelerParkingLot(ParkingLot):
 
         return False
 
-    def allocate_parking_spot(self, vehicle: Vehicle) -> None:
+    def allocate_parking_spot(self, vehicle: Vehicle) -> bool:
         """
         Allocate parking spot to incoming vehicle.
         """
@@ -141,8 +141,10 @@ class FourWheelerParkingLot(ParkingLot):
             and self._is_parking_spot_available(vehicle.type_):
             parking_event = ParkingLotEvent.PARK
             self._update_parking_lot(parking_event, vehicle)
+            return True
+        return False
 
-    def free_up_parking_spot(self, parking_spot_id: int) -> None:
+    def free_up_parking_spot(self, parking_spot_id: int) -> bool:
         """
         Change state of vehicle, parking-spot 
         and parking-lot on vehicle's EXIT.
@@ -156,6 +158,8 @@ class FourWheelerParkingLot(ParkingLot):
             if self._is_vehicle_parked_in_parking_lot(vehicle):
                 unparking_event = ParkingLotEvent.UNPARK
                 self._update_parking_lot(unparking_event, vehicle)
+                return True
+        return False
 
     def _add_vehicle_details(
         self, vehicle: Vehicle
