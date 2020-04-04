@@ -26,7 +26,7 @@ class Vehicle(ABC):
 
     @property
     def color(self) -> str:
-        return self._color
+        return self._color.capitalize()
 
     @property
     def parking_spot(self):
