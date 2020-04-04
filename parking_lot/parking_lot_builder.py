@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from parking_lot.parking_lot import ParkingLot
+from parking_lot.parking_lot import FourWheelerParkingLot, ParkingLot
 from parking_lot.parking_spot import FourWheelerSpot
 
 
@@ -19,7 +19,7 @@ class ParkingLotBuilder(ABC):
 
 class FourWheelerParkingLotBuilder(ParkingLotBuilder):
     def __init__(self):
-        self._parking_lot = ParkingLot()
+        self._parking_lot = FourWheelerParkingLot()
 
     def add_four_wheeler_parking_spots(
         self, max_four_wheeler_spots: int
