@@ -73,9 +73,9 @@ class FourWheelerParkingLotStatus(FourWheelerParkingLotCommand):
         if len(status) < 2:  # excluding header
             return ""
         
-        res = '\t'.join(status[0]) + '\n'
+        res = '\t\t'.join(status[0]) + '\n'
         for r in status[1:]:
-            res += '\t'.join(r) + '\n'
+            res += '\t\t'.join(map(lambda x: str(x), r)) + '\n'
 
         return res
 
@@ -107,7 +107,7 @@ class FourWheelerParkingSpotNosFromVehicleColor(FourWheelerParkingLotCommand):
         
         if not parking_spots_nos:
             return "Not Found"
-        return ', '.join(parking_spots_nos)
+        return ', '.join(map(lambda x: str(x), sorted(parking_spots_nos)))
 
 class FourWheelerParkingSpotNoFromRegNo(FourWheelerParkingLotCommand):
     def __init__(self, registration_number: str):
