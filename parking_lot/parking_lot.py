@@ -133,9 +133,11 @@ class ParkingLot:
         """
         if event is ParkingLotEvent.PARK:
             self._park_vehicle(vehicle)
+            self._increment_spot_count(vehicle.type_)
             self._add_vehicle_details(vehicle)
         elif event is ParkingLotEvent.UNPARK:
             self._unpark_vehicle(vehicle)
+            self._decrement_spot_count(vehicle.type_)        
             self._remove_vehicle_details(vehicle)
 
     def _is_parking_spot_available(self, vehicle_type: VehicleType) -> bool:
@@ -164,7 +166,6 @@ class ParkingLot:
         """
         self._allocate_parking_spot_to_incoming_vehicle(vehicle)
         self._issue_new_parking_ticket(vehicle)
-        self._increment_spot_count(vehicle.type_)
 
     def _allocate_parking_spot_to_incoming_vehicle(
         self, vehicle: Vehicle
@@ -237,7 +238,6 @@ class ParkingLot:
         # this will remove ref to allocated ticket
         # and be gc'ed
         vehicle._deallocate_parking_spot()
-        self._decrement_spot_count(vehicle.type_)
 
     def _decrement_spot_count(self, vehicle_type: VehicleType) -> None:
         """
