@@ -30,15 +30,21 @@ class TestParkingLot(unittest.TestCase):
             TestParkingLot._parking_lot = director.get_parking_lot()
         return TestParkingLot._parking_lot
 
+    def clean_up_parking_spot(self):
+        parking_lot: parking_lot = self._build_default_parking_lot()
+        status = parking_lot.get_parking_lot_status()
+        for r in status[1:]:
+            parking_lot.free_up_parking_spot(r[0])
+        
     def test_allocate_parking_spot(self):
         parking_lot = self._build_default_parking_lot()
-        car = Car("KA-01-HH-1234", "White")
+        car = Car("DUMMY1", "White")
         parking_lot.allocate_parking_spot(car)
         self.assertIsInstance(car.parking_spot, (FourWheelerSpot, ParkingSpot))
         self.assertIsInstance(car.ticket, (FourWheelerParkingTicket, ParkingTicket))
         parking_spot = car.parking_spot
         ticket = car.ticket
-        for __ in range(100):
+        for __ in range(1):
             parking_lot.allocate_parking_spot(car)
             self.assertIs(car.parking_spot, parking_spot)
             self.assertIs(car.ticket, ticket)
@@ -46,18 +52,20 @@ class TestParkingLot(unittest.TestCase):
             self.assertIsNotNone(car.parking_spot)
             self.assertFalse(car.parking_spot.is_free())
             self.assertTrue(car.is_vehicle_parked())
+            parking_lot.free_up_parking_spot(car.parking_spot.id_)
 
     def test_free_up_parking_spot(self):
         parking_lot = self._build_default_parking_lot()
-        car = Car("KA-01-HH-1234", "White")
+        car = Car("DUMMY2", "White")
         parking_lot.allocate_parking_spot(car)
-        parking_spot = car.parking_spot
-        parking_lot.free_up_parking_spot(parking_spot)
+        parking_spot_id = car.parking_spot.id_
+        parking_lot.free_up_parking_spot(parking_spot_id)
         self.assertIsNone(car.ticket)
         self.assertIsNone(car.parking_spot)
         self.assertFalse(car.is_vehicle_parked())
 
     def test_get_vehicle_spot_number(self):
+        self.clean_up_parking_spot()
         parking_lot = self._build_default_parking_lot()
         for config in TestParkingLot.cars_config:
             car = Car(*config)
@@ -66,6 +74,7 @@ class TestParkingLot(unittest.TestCase):
                 parking_lot.get_vehicle_spot_number(car.registration_number), 
                 car.parking_spot.id_
             )
+            parking_lot.free_up_parking_spot(car.parking_spot.id_)
 
     def test_get_registration_numbers_of_vehicle_with_color(self):
         parking_lot = self._build_default_parking_lot()

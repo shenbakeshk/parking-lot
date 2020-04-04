@@ -307,3 +307,17 @@ class ParkingLot:
             return
         parking_spot: ParkingSpot = vehicle.parking_spot
         return parking_spot.id_
+
+    def get_parking_lot_status(self):
+        """
+        Return status of parking-lot.
+        """
+        res = [('Slot No.', 'Registration No', 'Colour')]
+        for i in range(self._max_four_wheeler_spots):
+            parking_spot: ParkingSpot = self._four_wheeler_spots[i]
+            if parking_spot.is_free():
+                continue
+            vehicle = parking_spot.vehicle
+            row = (parking_spot.id_, vehicle.registration_number.upper(), vehicle.color.capitalize())
+            res.append(row)
+        return res
