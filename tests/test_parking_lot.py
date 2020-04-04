@@ -98,3 +98,33 @@ class TestParkingLot(unittest.TestCase):
             for car in colors_map[color]:
                 self.assertIn(car.parking_spot.id_, set(parking_spot_ids))
 
+    def test_get_parking_lot_status_1(self):
+        parking_lot = self._build_default_parking_lot()
+        expected_results = [('Slot No.', 'Registration No', 'Colour')]
+        for config in TestParkingLot.cars_config:
+            car = Car(*config)
+            parking_lot.allocate_parking_spot(car)
+            parking_spot_id = car.parking_spot.id_
+            row = (parking_spot_id, car.registration_number, car.color.capitalize())
+            expected_results.append(row)
+
+        status = parking_lot.get_parking_lot_status()
+        self.assertListEqual(expected_results, status)
+
+    def test_get_parking_lot_status_2(self):
+        parking_lot = self._build_default_parking_lot()
+        for config in TestParkingLot.cars_config:
+            car = Car(*config)
+            parking_lot.allocate_parking_spot(car)
+
+        status = parking_lot.get_parking_lot_status()
+        expected_results = [('Slot No.', 'Registration No', 'Colour')]
+        for row in status[1:]:
+            spot_id = row[0]
+            if spot_id % 2 == 0:
+                parking_lot.free_up_parking_spot(spot_id)
+                continue
+            expected_results.append(row)
+
+        status = parking_lot.get_parking_lot_status()
+        self.assertListEqual(expected_results, status)
